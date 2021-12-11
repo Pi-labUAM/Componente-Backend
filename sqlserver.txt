@@ -1,0 +1,54 @@
+
+DROP DATABASE dbpaulo; 
+
+CREATE DATABASE dbpaulo;
+
+USE dbpaulo;
+
+CREATE TABLE Research (
+  create_date VARCHAR(20) NOT NULL,
+  picture VARCHAR(100) NOT NULL,
+  title VARCHAR(MAX) NOT NULL,
+  abstract VARCHAR(MAX) NOT NULL,
+  objectives VARCHAR(MAX) NOT NULL,
+  results VARCHAR(MAX) NOT NULL,
+  bibliography VARCHAR(MAX) NOT NULL,
+  state VARCHAR(1) NOT NULL,
+  PRIMARY KEY(create_date)
+);
+
+CREATE TABLE Participant (
+  document VARCHAR(10) NOT NULL,
+  picture VARCHAR(100) NOT NULL,
+  fullname VARCHAR(100) NOT NULL,
+  email VARCHAR(100) NOT NULL UNIQUE,
+  PRIMARY KEY(document)
+);
+
+CREATE TABLE Inscription (
+  research VARCHAR(20) NOT NULL,
+  participant VARCHAR(10) NOT NULL,
+  create_date VARCHAR(20) NOT NULL,
+  PRIMARY KEY(research, participant, create_date),
+  FOREIGN KEY(research) REFERENCES Research (create_date) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY(participant) REFERENCES Participant (document) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE Publication (
+  create_date VARCHAR(20) NOT NULL,
+  publication_date VARCHAR(10) NOT NULL,
+  title VARCHAR(MAX) NOT NULL,
+  link VARCHAR(1000) NOT NULL,
+  PRIMARY KEY(create_date)
+);
+
+CREATE TABLE Talks (
+  create_date VARCHAR(20) NOT NULL,
+  date VARCHAR(10) NOT NULL,
+  name VARCHAR(MAX) NOT NULL,
+  speaker VARCHAR(2000) NOT NULL,
+  place VARCHAR(1000) NOT NULL,
+  PRIMARY KEY(create_date)
+);
+
+Scaffold-DBContext "Server=LAPTOP-JHMVABP7;Database=dbpaulo; Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
